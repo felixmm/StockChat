@@ -36,9 +36,7 @@ namespace SockChat.API
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

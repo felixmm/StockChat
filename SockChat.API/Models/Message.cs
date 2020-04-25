@@ -3,7 +3,8 @@ namespace SockChat.API.Models
 {
     public class Message
     {
-        public DateTime Date { get; set; }
+        public int Id { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public string Text { get; set; }
     }
 }
