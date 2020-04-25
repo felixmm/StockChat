@@ -5,6 +5,13 @@ VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SockChat.API", "SockChat.API\SockChat.API.csproj", "{BF39598A-3FC6-439A-99D2-DD422CC85EEA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A9AC198-E496-456A-B539-7DC7D18877DB}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Bot", "StockChat.Bot\StockChat.Bot.csproj", "{1F902956-C3BA-4502-904E-C23390B360BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,10 @@ Global
 		{BF39598A-3FC6-439A-99D2-DD422CC85EEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF39598A-3FC6-439A-99D2-DD422CC85EEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF39598A-3FC6-439A-99D2-DD422CC85EEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F902956-C3BA-4502-904E-C23390B360BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F902956-C3BA-4502-904E-C23390B360BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F902956-C3BA-4502-904E-C23390B360BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F902956-C3BA-4502-904E-C23390B360BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
