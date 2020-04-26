@@ -20,18 +20,18 @@ namespace StockChat.API.Controllers
 
         [Route("")]
         [HttpGet]
-        public List<Message> GetLastMessages()
+        public async Task<ActionResult<List<Message>>> GetLastMessages()
         {
             var messages = repo.GetLastMessages();
-            return messages;
+            return Ok(messages);
         }
 
         [Route("")]
         [HttpPost]
-        public ActionResult SendMessage([FromBody]Message message)
+        public async Task<ActionResult<Message>> SendMessage([FromBody]Message message)
         {
-            this.repo.Save(message);
-            return Ok(message);
+            var savedMessage = this.repo.Save(message);
+            return Ok(savedMessage);
         }
     }
 }

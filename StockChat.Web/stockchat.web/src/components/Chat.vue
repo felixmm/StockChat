@@ -7,7 +7,7 @@
           class="list-group-item text-left"
           :key="message.date"
           v-for="message in messageList"
-        >{{ new Date(message.date).getHours()}}:{{ new Date(message.date).getMinutes()}}:{{ new Date(message.date).getSeconds()}}: {{ message.text }}</li>
+        >{{ formatTime(message.date) }}: {{ message.text }}</li>
       </ul>
     </div>
     <div class="row mt-3 mb-5">
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import stockApi from "./../services/stockApi";
+
 export default {
   name: "Chat",
   data: () => {
@@ -32,23 +34,61 @@ export default {
     };
   },
   methods: {
-    sendMessage() {
-      var message = {
+    async sendMessage() {
+      let stockRequest = this.newMessage.match("/stock=.*");
+      if (stockRequest !== null) {
+        let code = stockRequest[0].split("=")[1];
+        if (code != null) {
+          const self = this;
+          stockApi
+            .getStock(code)
+            .then(stock => {
+              self.addMessage(
+                stock.symbol + " stock is $" + stock.price + " per share."
+              );
+            })
+            .catch(() => {
+              self.addMessage(
+                "There was an error trying to get stocks for " + code
+              );
+            });
+        }
+      } else {
+        let message = this.newMessage;
+        this.addMessage(message);
+        let posted = await stockApi.postMessage(message).then(response => {
+          console.log(response);
+        });
+      }
+    },
+    addMessage(value) {
+      let message = {
         date: Date.now(),
-        text: this.newMessage
+        text: value
       };
       this.messageList.push(message);
       this.newMessage = "";
       this.scrollBottom();
     },
+    formatTime(date) {
+      let dateObj = new Date(date);
+      let formatedTime =
+        (dateObj.getHours() % 12 || 12) +
+        ":" +
+        dateObj.getMinutes() +
+        ":" +
+        dateObj.getSeconds();
+
+      return formatedTime;
+    },
     scrollBottom() {
-      var list = this.$refs.chatList;
+      let list = this.$refs.chatList;
       list.scrollTop = list.scrollHeight;
     }
   },
   mounted() {
-    var list = this.$refs.chatList;
-    var observer = new MutationObserver(this.scrollBottom);
+    let list = this.$refs.chatList;
+    let observer = new MutationObserver(this.scrollBottom);
     observer.observe(list, { childList: true });
   }
 };

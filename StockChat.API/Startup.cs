@@ -14,6 +14,8 @@ namespace SockChat.API
 {
     public class Startup
     {
+        readonly string AllowdOrigins = "_allowdOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +27,16 @@ namespace SockChat.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowdOrigins,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().
+                        AllowAnyMethod().
+                        AllowAnyHeader();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +47,7 @@ namespace SockChat.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(AllowdOrigins);
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
