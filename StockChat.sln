@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SockChat.API", "SockChat.API\SockChat.API.csproj", "{BF39598A-3FC6-439A-99D2-DD422CC85EEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChat.API", "StockChat.API\StockChat.API.csproj", "{BF39598A-3FC6-439A-99D2-DD422CC85EEA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6A9AC198-E496-456A-B539-7DC7D18877DB}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Bot", "StockChat.Bot\StockChat.Bot.csproj", "{1F902956-C3BA-4502-904E-C23390B360BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChat.Bot", "StockChat.Bot\StockChat.Bot.csproj", "{1F902956-C3BA-4502-904E-C23390B360BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

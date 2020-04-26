@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SockChat.API.Helpers;
-using SockChat.API.Models;
+using StockChat.API.Helpers;
+using StockChat.API.Models;
 
-namespace SockChat.API.Controllers
+namespace StockChat.API.Controllers
 {
     [Route("Messages")]
     public class MessagesController : Controller

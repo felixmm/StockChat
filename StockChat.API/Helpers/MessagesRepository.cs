@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SockChat.API.Models;
+using StockChat.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SockChat.API.Helpers
+namespace StockChat.API.Helpers
 {
     public class MessagesRepository
     {

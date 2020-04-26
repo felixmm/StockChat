@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace SockChat.API.Models
+namespace StockChat.API.Models
 {
     public class ChatContext : DbContext
     {
