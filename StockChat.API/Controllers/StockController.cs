@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using StockChat.API.Helpers;
 using StockChat.Bot;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 namespace StockChat.API.Controllers
 {
     [Route("Stocks")]
+    [Authorize]
     public class StockController : Controller
     {
         private readonly StockBot stockBot;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using StockChat.API.Helpers;
 using StockChat.API.Models;
@@ -8,16 +9,16 @@ using System.Threading.Tasks;
 namespace StockChat.API.Controllers
 {
     [Route("Messages")]
+    [Authorize]
     public class MessagesController : Controller
     {
         private readonly MessagesRepository repo;
         private readonly IHubContext<MessagesHub> _hub;
 
-        public MessagesController(IHubContext<MessagesHub> hub)
+        public MessagesController(ChatContext context, IHubContext<MessagesHub> hub)
         {
-            repo = new MessagesRepository();
+            repo = new MessagesRepository(context);
             this._hub = hub;
-
         }
 
         [Route("")]
@@ -37,6 +38,8 @@ namespace StockChat.API.Controllers
                 return BadRequest(message);
             }
 
+            // Due to the SQLite ForeignKey constraing, manually adding the Message -> User relation
+            message.UserId = int.Parse(HttpContext.User.Identity.Name);
             var savedMessage = this.repo.Save(message);
             await _hub.Clients.All.SendAsync("sendMessage", savedMessage);
 

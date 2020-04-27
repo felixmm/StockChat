@@ -18,6 +18,10 @@ namespace StockChat.API.Helpers
 
         public Message Save(Message message)
         {
+            // Adding the username to the message for ease of use when sending the New Message signal
+            var user = this.dbContext.Users.First(u => u.Id == message.UserId);
+            message.Username = user.Username;
+
             this.dbContext.Messages.Add(message);
             this.dbContext.SaveChanges();
 
