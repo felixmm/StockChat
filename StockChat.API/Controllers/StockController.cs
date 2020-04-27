@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using StockChat.API.Helpers;
 using StockChat.Bot;
+using System.Threading.Tasks;
 
 namespace StockChat.API.Controllers
 {
@@ -27,13 +23,12 @@ namespace StockChat.API.Controllers
         public async Task<ActionResult<Quote>> GetStock(string code)
         {
             var quote = await this.stockBot.GetQuote(code);
-            await _hub.Clients.All.SendAsync("sendStock", quote);
-
             if (quote == null)
             {
                 return BadRequest(quote);
             }
 
+            await _hub.Clients.All.SendAsync("sendStock", quote);
             return Ok(quote);
         }
     }

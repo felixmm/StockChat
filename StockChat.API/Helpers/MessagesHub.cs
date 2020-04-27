@@ -2,6 +2,5 @@
 namespace StockChat.API.Helpers
 {
     public class MessagesHub : Hub
-    {
-    }
+    { }
 }

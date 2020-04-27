@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using StockChat.API.Helpers;
 using StockChat.API.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StockChat.API.Controllers
 {
@@ -34,6 +32,11 @@ namespace StockChat.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Message>> SendMessage([FromBody]Message message)
         {
+            if(message == null || string.IsNullOrEmpty(message.Text))
+            {
+                return BadRequest(message);
+            }
+
             var savedMessage = this.repo.Save(message);
             await _hub.Clients.All.SendAsync("sendMessage", savedMessage);
 

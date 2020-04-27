@@ -37,9 +37,26 @@ export default {
   created() {
     this.$messagesHub.$on("message-received", this.receiveMessage);
     this.$messagesHub.$on("stock-received", this.receiveStock);
+    this.loadMessageHistory();
+  },
+  mounted() {
+    let list = this.$refs.chatList;
+    let observer = new MutationObserver(this.scrollBottom);
+    observer.observe(list, { childList: true });
   },
   methods: {
+    loadMessageHistory() {
+      let messages = stockApi
+        .getMessagesHistory()
+        .then(response => {
+          this.messageList.push(...response);
+        })
+        .catch(err => console.log(err));
+    },
     async sendMessage() {
+      if (this.newMessage === null || this.newMessage === "") {
+        return;
+      }
       let stockRequest = this.newMessage.match("/stock=.*");
       if (stockRequest !== null) {
         let code = stockRequest[0].split("=")[1];
@@ -48,7 +65,7 @@ export default {
           stockApi
             .getStock(code)
             .then(stock => {
-              self.addMessage(selft.formatStock(stock));
+              this.cleanUp();
             })
             .catch(() => {
               self.addMessage(
@@ -57,11 +74,12 @@ export default {
             });
         }
       } else {
-        let message = this.newMessage;
-        this.addMessage(message);
-        let posted = await stockApi.postMessage(message).then(response => {
-          console.log(response);
-        });
+        let posted = await stockApi
+          .postMessage(this.newMessage)
+          .then(response => {
+            this.cleanUp();
+          })
+          .catch(err => console.log(err));
       }
     },
     addMessage(value) {
@@ -70,39 +88,45 @@ export default {
         text: value
       };
       this.messageList.push(message);
-      this.newMessage = "";
-      this.scrollBottom();
+      this.cleanUp();
     },
     receiveMessage(message) {
       this.messageList.push(message);
     },
     receiveStock(stock) {
       let self = this;
-      self.messageList.push(self.formatStock(stock));
+      let message = {
+        date: Date.now(),
+        text: this.formatStock(stock)
+      };
+      self.messageList.push(message);
     },
     formatTime(date) {
       let dateObj = new Date(date);
       let formatedTime =
         (dateObj.getHours() % 12 || 12) +
         ":" +
-        dateObj.getMinutes() +
+        (dateObj.getMinutes() >= 10
+          ? dateObj.getMinutes()
+          : "0" + dateObj.getMinutes()) +
         ":" +
-        dateObj.getSeconds();
+        (dateObj.getSeconds() >= 10
+          ? dateObj.getSeconds()
+          : "0" + dateObj.getSeconds());
 
       return formatedTime;
     },
     formatStock(stock) {
+      debugger;
       return stock.symbol + " stock is $" + stock.price + " per share.";
     },
     scrollBottom() {
       let list = this.$refs.chatList;
       list.scrollTop = list.scrollHeight;
+    },
+    cleanUp() {
+      this.newMessage = "";
     }
-  },
-  mounted() {
-    let list = this.$refs.chatList;
-    let observer = new MutationObserver(this.scrollBottom);
-    observer.observe(list, { childList: true });
   }
 };
 </script>

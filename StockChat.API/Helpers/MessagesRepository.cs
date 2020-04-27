@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StockChat.API.Models;
-using System;
+﻿using StockChat.API.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace StockChat.API.Helpers
 {
