@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import stockApi from "./../services/stockApi";
+import stockApi from "@/services/stockApi";
+import connectionHub from "@/services/messagesHub";
 
 export default {
   name: "Chat",
@@ -32,6 +33,10 @@ export default {
       messageList: [],
       newMessage: ""
     };
+  },
+  created() {
+    this.$messagesHub.$on("message-received", this.receiveMessage);
+    this.$messagesHub.$on("stock-received", this.receiveStock);
   },
   methods: {
     async sendMessage() {
@@ -43,9 +48,7 @@ export default {
           stockApi
             .getStock(code)
             .then(stock => {
-              self.addMessage(
-                stock.symbol + " stock is $" + stock.price + " per share."
-              );
+              self.addMessage(selft.formatStock(stock));
             })
             .catch(() => {
               self.addMessage(
@@ -70,6 +73,13 @@ export default {
       this.newMessage = "";
       this.scrollBottom();
     },
+    receiveMessage(message) {
+      this.messageList.push(message);
+    },
+    receiveStock(stock) {
+      let self = this;
+      self.messageList.push(self.formatStock(stock));
+    },
     formatTime(date) {
       let dateObj = new Date(date);
       let formatedTime =
@@ -80,6 +90,9 @@ export default {
         dateObj.getSeconds();
 
       return formatedTime;
+    },
+    formatStock(stock) {
+      return stock.symbol + " stock is $" + stock.price + " per share.";
     },
     scrollBottom() {
       let list = this.$refs.chatList;

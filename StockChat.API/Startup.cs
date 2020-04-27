@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using StockChat.API.Helpers;
 
 namespace SockChat.API
 {
@@ -32,11 +33,14 @@ namespace SockChat.API
                 options.AddPolicy(name: AllowdOrigins,
                     builder =>
                     {
-                        builder.AllowAnyOrigin().
-                        AllowAnyMethod().
-                        AllowAnyHeader();
+                        builder
+                        .WithOrigins("http://localhost:8080")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                     });
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +56,7 @@ namespace SockChat.API
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<MessagesHub>("/messagesHub");
                 endpoints.MapControllers();
             });
         }
