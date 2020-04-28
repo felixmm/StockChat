@@ -31,6 +31,7 @@ The project uses dotnet core v3.1 and node v10.15.13
 
 - [DotNet Core](https://dotnet.microsoft.com/download)
 - [NodeJS](https://nodejs.org/en/)
+- [VueJS](https://vuejs.org/)
 
 ### Restore, compile and run
 
