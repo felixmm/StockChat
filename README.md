@@ -8,7 +8,7 @@ The chat also has a command to search for current pricess on stocks with
 /stock=[stock_code]
 ```
 
-Ex: /stock=appl.us withh retreive the current price for the APPLE stocks and display them in the chat.
+Ex: /stock=appl.us will retreive the current price for the APPLE stocks and display them in the chat.
 
 ## Project Structure
 
