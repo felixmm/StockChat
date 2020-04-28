@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using StockChat.API.Helpers;
@@ -25,6 +26,7 @@ namespace StockChat.API.Controllers
 
         [Route("login")]
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult<UserDTO> Login([FromBody]UserLoginDTO loginUser)
         {
             var user = this.repo.Get(loginUser.Username);

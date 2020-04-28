@@ -3,11 +3,11 @@
     <div class="row">
       <h1>Stock Chat</h1>
       <ul ref="chatList" class="list-group list-group-flush col-12 chat-list">
-        <li
-          class="list-group-item text-left"
-          :key="message.date"
-          v-for="message in messageList"
-        >{{ formatTime(message.date) }}: {{ message.text }}</li>
+        <li class="list-group-item text-left" :key="message.date" v-for="message in messageList">
+          {{ formatTime(message.date) }}
+          <strong>{{ message.username }}:</strong>
+          {{ message.text }}
+        </li>
       </ul>
     </div>
     <div class="row mt-3 mb-5">
@@ -35,6 +35,12 @@ export default {
     };
   },
   created() {
+    if (localStorage.username == null || localStorage.token == null) {
+      this.$router.push("Login");
+    }
+
+    stockApi.addToken(localStorage.token);
+
     this.$messagesHub.$on("message-received", this.receiveMessage);
     this.$messagesHub.$on("stock-received", this.receiveStock);
     this.loadMessageHistory();
@@ -97,7 +103,8 @@ export default {
       let self = this;
       let message = {
         date: Date.now(),
-        text: this.formatStock(stock)
+        text: this.formatStock(stock),
+        username: "StockBot"
       };
       self.messageList.push(message);
     },
@@ -117,7 +124,6 @@ export default {
       return formatedTime;
     },
     formatStock(stock) {
-      debugger;
       return stock.symbol + " stock is $" + stock.price + " per share.";
     },
     scrollBottom() {

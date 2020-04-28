@@ -1,8 +1,5 @@
 ﻿using StockChat.API.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -49,8 +46,8 @@ namespace StockChat.API.Helpers
 
             using (var hmac = new HMACSHA512())
             {
-                hash = hmac.Key;
-                salt = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                salt = hmac.Key;
+                hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
 
             newUser = new User

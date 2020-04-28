@@ -12,8 +12,8 @@ Vue.use(QuestionHub);
 Vue.config.productionTip = false;
 
 const routes = [
-  { path: "/chat", component: Chat },
-  { path: "/login", component: Login },
+  { name: "Login", path: "/", component: Login },
+  { name: "Chat", path: "/chat", component: Chat },
 ];
 
 const router = new VueRouter({
